@@ -1,143 +1,128 @@
 var taskuri = [
+
 {name:'walk the cat', completed : false},
+
 {name:'play golf', completed : true},
+
 {name:'pay bills', completed : true},
+
 ]
-
-
-// var tx = 'hello'
-
-// var template = `<p>${tx}</p>`;
-   
-    // $('.tasks').html(template);
 
 /**
  * 
  * @param {*} name 
  * @param {*} completed 
  */
+function templ(name,index){
 
-function templ(name,completed,status=0){
+   return `<p data-index=${index}> ${name}  </p>`  ;
 
-    if (status==0){
+}
 
-        var x =  `<p>${name}<p>`;
-        return completed==false? x : '';
+function showTasks(t, target, status=true){
+
+    $(target).html('')
+
+    
+
+    // {name:'walk the cat', completed : false},
+    
+    for( i=0; i<t.length; i++){
+        var el  =  t[i];
+
+        if(el.completed==status){
+            $(target).append( templ(el.name, i) );
+        }
+        
+    
+    }
+
+   var x = taskuri.filter(function(m){
+
+        return m.completed == status
+
+    })
+
+    $(target).parent().find('span').text(x.length)
+
+
+}
 
 
 
-    }else{
+$(document).ready(function(){
 
-            var x =  `<p>${name}<p>`;
-            return completed==true? x : '';
+    $('body').on( 'click','p',function(){
+        
 
+        var index = $(this).attr('data-index')
+        
+        // taskuri[index].completed = true;
+
+
+        if(taskuri[index].completed == true){
+
+            taskuri[index].completed = false
+
+        }else{
+
+            taskuri[index].completed = true
         }
 
 
-}
-
-
-function showTasks(t, target){
-
-    $(target).html(''); // clear tasks container content
-
-
-        //loop through tasks and add values to the container
-
-
-    for(i=0; i<t.length; i++){
-        var el=t[i];
-        // document.getElementById('para').innerHTML = `<p></p>`;
-        // if (el.completed != true){
-        $(target).append(templ(el.name,el.completed, 0));
-
-        // localStorage.setItem(el.name, el.completed);
-        // }
-    }
-
-}
-
-    $(document).ready(function(){
-
-        $('.tasks').on('click','p', function() {
-            $(this).css({color: 'red'});
-        })
-
-
+        showTasks(taskuri, '.tasks', false) 
+        showTasks(taskuri, '.completedTasks',true)
         
-        $('#input').focus();  //focus the input
-
-               
-        showTasks(taskuri,'.tasks');  //show tasks
-
-
-        $('#input').keypress(function(event){
-            if(event.keyCode==13){
-                $('#add').trigger('click')
-            }
-        })
-
-
-        $('#add').click(function(){
-
-             if ($('#input').val() != '' ){ 
-
-            // create new object if the value is not empty
-
-
-            
-                 //create a new task object
-               var taskName =   {
-                    name : $('#input').val(),
-                    completed : false
-                }
-                // var taskName = $('#input').val(); 
-                // console.log(taskName);
-
-
-                //add tasks to tasks array
-
-                taskuri.push(taskName);
-
-                //refresh the tasks container
-
-                showTasks(taskuri, '.tasks');
-
-                //clear input
-
-                $('#input').val('');
-                $('#input').focus();
-            }else {
-                    $('#input').css({border: '1px solid red'});
-                    $('#input').focus();
-                }  
-            })
-        
-        
-    
     })
 
 
 
+    showTasks(taskuri, '.tasks', false) 
+    showTasks(taskuri, '.completedTasks',true)
+
+    $('#input').keypress(function(event){
+        if ( event.keyCode==13 ){
+            $('#add').trigger('click')
+        }
+    })
+
+    $('#add').click(function(){
+        
+        if( $('#input').val() != '' ){
+
+            //create new object if the value is not empty
+            var taskName =  {
+                    name : $('#input').val(),
+                    completed : false
+                }
+
+                //add tasks to tasks array
+                taskuri.push(taskName)
+
+                //refresh the tasks container
+                showTasks(taskuri, '.tasks',false)
+
+                //clear the input 
+                $('#input').val('')
+
+                //focus the input 
+                $('#input').focus()
 
 
+            }else{
 
+                //advise the user 
+                $('#input').css({borderColor : ' red'})
 
+                //focus the input 
+                $('#input').focus()
+            }
+    })
+    
 
-    ///local storage
+    $('#input').focus()  //focus the input 
 
-
-
-    // localStorage.setItem('name','yes')  
-    // (name and value)
-
-
-
-
-
-
-
-
+})
 
 
 

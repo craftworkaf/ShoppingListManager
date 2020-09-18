@@ -1,28 +1,27 @@
-body{
+.container{
     display: flex;
 }
 
 .addItem{
-
     width: 200px;
-    height: 500px;
-    
-    display: left;
+    height: auto;
 }
 
 
 .itemList{
-    
         width: 300px;
         height: auto;
         border: 1px solid black;
-        display: right;
-
-
  }
 
  .totalCost{
      width: auto;
-     height:10%;
      border: 1px solid black;
+ }
+
+ .navbar{
+     width: 100%;
+     background-color:gray;
+     min-height : 50px;
+     margin-bottom: 2rem;
  }

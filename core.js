@@ -1,138 +1,91 @@
-var taskuri = [
 
-{name:'walk the cat', completed : false},
 
-{name:'play golf', completed : true},
+$('.addButton').click(function(){
 
-{name:'pay bills', completed : true},
-
-]
-
-/**
- * 
- * @param {*} name 
- * @param {*} completed 
- */
-function templ(name,index){
-
-   return `<p data-index=${index}> ${name}  </p>`  ;
-
-}
-
-function showTasks(t, target, status=true){
-
-    $(target).html('')
-
+    var itemName = $('.item').val();
     
-
-    // {name:'walk the cat', completed : false},
+    var quantity = $('.qty').val();
     
-    for( i=0; i<t.length; i++){
-        var el  =  t[i];
+    var price = $('.price').val();
 
-        if(el.completed==status){
-            $(target).append( templ(el.name, i) );
-        }
+
+    var data = {
         
-    
+        item: itemName,
+        quantity: quantity,
+        price: price,
+
     }
 
-   var x = taskuri.filter(function(m){
+    $.ajax({
+        method:'POST',
+        url:'http://192.168.1.231/wallet/public/store',
+        data: data
 
-        return m.completed == status
+    }).done(function(response){
 
-    })
+        console.log(response);            
+        
+        getBasket();
 
-    $(target).parent().find('span').text(x.length)
+      });
+
+      
+
+
+});
+
+
+
+
+function template(prod){
+
+    var cost = prod.quantity * prod.price;
+    cost = parseFloat(cost).toPrecision(4)
+    var el = `<p>  ${prod.item}, ${prod.quantity}, £${cost} <span><button>Delete</button></span></p>`
+
+
+    return el;
 
 
 }
 
 
+
+
+function getBasket(){
+
+    $.ajax({
+        method:'POST',
+        url:'http://192.168.1.231/wallet/public/all',
+        data: {}
+
+    }).done(function(basket){
+
+        $('.itemList').html('');
+
+        var total = 0
+
+      for(var i=0; i <basket.length; i++){
+
+        $('.itemList').append(template(basket[i]));
+                
+        total = total + basket[i].quantity * basket[i].price;
+
+
+      }
+
+      total = parseFloat(total).toPrecision(5);
+
+      $('.totalCost').append(' ' + total);
+
+    });
+
+}
 
 $(document).ready(function(){
 
-    $('body').on( 'click','p',function(){
-        
-
-        var index = $(this).attr('data-index')
-        
-        // taskuri[index].completed = true;
-
-
-        if(taskuri[index].completed == true){
-
-            taskuri[index].completed = false
-
-        }else{
-
-            taskuri[index].completed = true
-        }
-
-
-        showTasks(taskuri, '.tasks', false) 
-        showTasks(taskuri, '.completedTasks',true)
-        
-    })
-
-
-
-    showTasks(taskuri, '.tasks', false) 
-    showTasks(taskuri, '.completedTasks',true)
-
-    $('#input').keypress(function(event){
-        if ( event.keyCode==13 ){
-            $('#add').trigger('click')
-        }
-    })
-
-    $('#add').click(function(){
-        
-        if( $('#input').val() != '' ){
-
-            //create new object if the value is not empty
-            var taskName =  {
-                    name : $('#input').val(),
-                    completed : false
-                }
-
-                //add tasks to tasks array
-                taskuri.push(taskName)
-
-                //refresh the tasks container
-                showTasks(taskuri, '.tasks',false)
-
-                //clear the input 
-                $('#input').val('')
-
-                //focus the input 
-                $('#input').focus()
-
-
-            }else{
-
-                //advise the user 
-                $('#input').css({borderColor : ' red'})
-
-                //focus the input 
-                $('#input').focus()
-            }
-    })
-    
-
-    $('#input').focus()  //focus the input 
+    getBasket();
 
 })
 
-
-
-
-
-
-
-
-
-
-
-
-    

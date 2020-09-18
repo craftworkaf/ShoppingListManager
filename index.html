@@ -4,45 +4,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous" defer></script>
-
 </head>
 <body>
 
 
-    <div class="container">
-        <input type="text" id="input" class="form-control mt-5 mb-1 px-3 py-3 mx-auto">
-        
-        <button id="add" class="btn btn-outline-primary btn-lg btn-block">Add task</button>
-    </div>
-    
-    <hr>
+    <div class="addItem">
 
-    <div class="tasksContainer">
-        <div class="uContainer">
-            <h1>Uncompleted tasks <span id="uc"></span></h1>
-            <div class="tasks" >
+    <input type="text" placeholder="Item name" class="item">
+    <input type="number" placeholder="Quantily" class="qty">
+    <input type="text" placeholder="Price" class="price">
 
-            </div> 
-        </div>
-        <div class="cContainer">
-                <h1>Completed tasks <span id="cc"></span></h1>
-             <div class="completedTasks">
-                 <h3>Comp Tasks</h3>
-             </div>
-        </div>
-       
+    <button class="addButton">Add</button>
 
     </div>
 
 
-
-
-
+    <div class="right">
+        <div class="itemList"></div>
+        <div class="totalCost">Total</div>
+    </div>
     
+
+
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="core.js"></script>
+
+
+
 </body>
 </html>

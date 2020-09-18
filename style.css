@@ -1,12 +1,28 @@
-.tasks{
-    width:500px;
-    height:500px;
+body{
+    display: flex;
+}
+
+.addItem{
+
+    width: 200px;
+    height: 500px;
     
+    display: left;
 }
 
-.tasksContainer {
-    display:flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
 
+.itemList{
+    
+        width: 300px;
+        height: auto;
+        border: 1px solid black;
+        display: right;
+
+
+ }
+
+ .totalCost{
+     width: auto;
+     height:10%;
+     border: 1px solid black;
+ }

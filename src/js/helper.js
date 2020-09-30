@@ -1,5 +1,5 @@
 
-let basePath = 'https://upster.co.uk/shoppingListManager/';
+let basePath = 'https://upster.co.uk/shopping-list-manager/';
 
 export var links = {
 

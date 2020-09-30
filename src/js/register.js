@@ -9,7 +9,7 @@ var password = $('.regPassword');
 var confirmPassword = $('.confirmPassword');
 
 var url = links.register
-
+console.log(url)
 
 
 
@@ -18,19 +18,12 @@ $('#regUser').click(function(){
 
     if( password.val() === confirmPassword.val() ){
        
-        $.post(url,{
-
-                    name: userName.val(),
-                    password : confirmPassword.val()
-
-                }
-
-        ).done(function(response){
+        $.post( url,{name: userName.val(),password : confirmPassword.val()}).done(function(response){
 
                 if(response.status === 200){
 
                     localStorage.setItem('token', response.token)
-                    window.location.assign('../src/addItems.html')
+                   // window.location.assign('../src/addItems.html')
 
                 }else(
                     console.log(response)

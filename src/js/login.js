@@ -36,7 +36,7 @@ $('#login').click(function(){
         console.log(user.val(), password.val());
 
     $.post(url,{  
-        name: user.val(),
+        user: user.val(),
         password : password.val()
     }).done(function(response){
         console.log(response);

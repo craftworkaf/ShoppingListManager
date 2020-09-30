@@ -1,4 +1,15 @@
+import {links} from './helper.js'
 
+
+$(document).ready(function(){
+
+  if(  !localStorage.getItem('token') ){
+
+    window.location.assign('index.html')
+
+  }
+
+})
 
 /**
  * Generate the template
@@ -22,8 +33,10 @@ function getBasket(){
 
     $.ajax({
         method:'POST',
-        url:'http://192.168.1.231/wallet/public/all',
-        data: {}
+        url: links.all,
+        data: {
+            token: localStorage.getItem('token'),
+        }
 
     }).done(function(basket){
 
@@ -56,7 +69,7 @@ function storeItem(item)
 {
     $.ajax({
         method:'POST',
-        url:'http://192.168.1.231/wallet/public/store',
+        url: links.store,
         data: item
 
     }).done(function(response){
@@ -76,7 +89,7 @@ function deleteItem(id)
 {
     $.ajax({
         method:'POST',
-        url:'http://192.168.1.231/wallet/public/delete',
+        url: links.delete,
         data: {id : id}
 
     }).done ( function(msg) {
@@ -100,6 +113,7 @@ $('.addButton').click(function(){
         item: itemName,
         quantity: quantity,
         price: price,
+        token : localStorage.getItem('token')
 
     }
 
@@ -121,3 +135,10 @@ $(document).ready(function(){
 
 })
 
+
+$('#logOut').click( function(){
+
+    localStorage.clear()
+    window.location.assign('../index.html')
+
+})

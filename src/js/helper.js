@@ -1,75 +1,49 @@
+export let userRules = {
 
-let basePath = 'https://upster.co.uk/shopping-list-manager/';
-
-export var links = {
-
+    min : 5,
+    max : 10,
     
-    store : basePath + 'store',
-    all: basePath +'all',
-    delete : basePath + 'delete',
-    login : basePath + 'admin/login',
-    register: basePath + 'admin/register',
+};
 
+export let passRules = {
+
+    min : 6,
+    max : 20,
+    
+};
+
+/**
+ * Can not be altered
+ * 
+ * @param {*} el 
+ * @param {*} rules 
+ */
+
+export function fieldFilter(el, rules){
+
+    return el.val().length < rules.min || el.val().length > rules.max;
 };
 
 
 
 
+export function check(el, ruleName){
 
-export function nameFilter(el){
+    var result = fieldFilter(el,ruleName);
+    
+    result ?  el.css({border: '5px solid red'}) : el.css({border : '5px solid green'})
 
-    // if (el.val() == '' ){
-
-    //     return false
-
-    // }
-
-    return el.val() == '';
+    
+};
 
 
-}
-
-
-
-
-export function fieldFilter(el,rules){
-
-
-    return el.val().length < rules.min || el.val().length > rules.max;
-
-}
-
-
-
-export function check(element, ruleName){
-
-    var result = fieldFilter(element, ruleName)
-
-    if (result){
-        element.css({borderColor : ' rgba(255,57,24,.5)'})
-    }else{
-        element.css({border: '5px solid green'})
+export function checkIfLoggedin(redirectWhere, redirectIfNot=null){
+    if (localStorage.getItem('token')){
+        console.log('have token')
+        window.location.assign(redirectWhere)
+    }else if(redirectIfNot){
+        window.location.assign(redirectIfNot)
     }
-
 }
-
-
-export function comparePass(pass1, pass2){
-
-    if (pass1.val() == pass2.val()){
-
-        pass1.css({border:'5px solid green'});
-        return 
-
-    }else {
-
-        pass1.css({border:'5px solid red'});
-        return 
-
-    }
-
-   
-}
-
 
 

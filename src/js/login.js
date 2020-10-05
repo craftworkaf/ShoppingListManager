@@ -1,97 +1,54 @@
-import{userRules, passRules} from './data.js'
-import{fieldFilter, check} from './helper.js'
+import{config} from './config.js'
+import {fieldFilter, userRules, passRules, checkIfLoggedin} from './helper.js'
+console.log(config)
+$(document).ready(function(){
+    checkIfLoggedin('./addItems.html')
 
-import * as Helper from './helper.js'
+})
 
-console.log(Helper)
+    
+$("#login").click(function(){
+    
+    var name = $(".name");
+    var password = $(".password");
 
-var user =  $('.name');
+    
 
-var password = $('.password');
+    // **If the inputs are empty, border gets red
+    if( fieldFilter( name , userRules) ){
 
-var url = Helper.links.login;
+        $('.name').css({border: '1px solid red',})  
 
+        return        
 
+    }else if( fieldFilter( password, passRules) ){
 
+        $('.password').css({border:'1px solid red',})
 
-$('#login').click(function(){
-
-
-
-   
-    if (Helper.fieldFilter(user,userRules)){
-
-        $('#badLogin2').show();
-                
         return
+    };
 
-    }else if (fieldFilter(password,passRules)){
+    var details = {
 
-            $('#badLogin2').show();
-           
-            return
-            
-        };
-        
-        console.log(user.val(), password.val());
+        user : name.val(),
 
-    $.post(url,{  
-        user: user.val(),
-        password : password.val()
-    }).done(function(response){
-        console.log(response);
+        password : password.val(),
+    };
+
+    $.post( config.login, details ).done( function(response){
+
         if(response.status == 200){
 
             localStorage.setItem('token', response.token)
-            window.location.assign('addItems.html')
+            window.location.assign("addItems.html")
 
-        }else if ( response.status == 401 ){
-
-            $('#badLogin').show();
-
-            }
-        
-         });
-
-    
-
-         
-
-});
-
-
-
-
-user.keyup(function(){
-
-    Helper.check($(this), userRules);
-
-});
-
-
- password.keyup(function(){
-
-     Helper.check($(this), passRules);
-
- });
-
- $('input').click(function(){
-
-    $('#badLogin').hide();
-    $('#badLogin2').hide();
-    $('.name').css({
-        border : 'none',
-        
-});
-    $('.password').css({
-        border : " none ",
-       
+        }else{
+            
+            $('span').show()
+        };
     });
-    
- });
 
-
-
+});
 
 
 

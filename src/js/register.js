@@ -1,64 +1,53 @@
-import {links} from './helper.js'
-import * as Helper from './helper.js'
-import * as Data from './data.js'
+import{config} from './config.js'
+import * as Data from './helper.js'  
 
-var userName =  $('.regName');
+Data.checkIfLoggedin('addItems.html')
 
-var password = $('.regPassword');
+var user = $('.user');
+var password = $(".password");
+var retypePass = $(".retype-password");
+        
+$('.register').click(function(){
 
-var confirmPassword = $('.confirmPassword');
+            var details = {
+            name : user.val(),
+            password : password.val(),
+                };  
+                console.log(details)
+        if(password.val() === retypePass.val()){
 
-var url = links.register
-console.log(url)
+            $.post( config.register, details).done( function(response){
+                console.log(response)
 
+            if(response.status == 200){
 
-
-$('#regUser').click(function(){
- 
-
-    if( password.val() === confirmPassword.val() ){
-       
-        $.post( url,{name: userName.val(),password : confirmPassword.val()}).done(function(response){
-
-                if(response.status === 200){
-
-                    localStorage.setItem('token', response.token)
-                   // window.location.assign('../src/addItems.html')
-
-                }else(
-                    console.log(response)
-                )
-
-
-            });
-
-    }else{
-        console.log('no');
-    }
+                localStorage.setItem('token', response.token)
+                window.location.assign('addItems.html')          
+            }
+            })
+        }   
+         });
 
 
 
+user.keyup(function(){
+    Data.check( $(this), Data.userRules )
 });
 
- 
+password.keyup(function(){
+    Data.check($(this), Data.passRules)
+});
 
-
-userName.keyup(function(){
-
-    Helper.check($(this), Data.userRules);
-
+retypePass.keyup(function(){
+    password.val() !== retypePass.val() ? $(this).css({border: '5px solid red'}) : $(this).css({border : '5px solid green'})
 });
 
 
- password.keyup(function(){
+// var elements = [user, password, retypePass]
 
-     Helper.check($(this), Data.passRules);
+// $.each(elements, function(index, element){
+//     element.keyup(function (){
+//         check( $(this), userRules )
+//     })
+// })
 
- });
-
-
- confirmPassword.keyup(function(){
-
-  Helper.comparePass($(this), password);
-
- });

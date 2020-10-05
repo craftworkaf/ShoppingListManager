@@ -1,15 +1,5 @@
-import {links} from './helper.js'
-
-
-$(document).ready(function(){
-
-  if(  !localStorage.getItem('token') ){
-
-    window.location.assign('index.html')
-
-  }
-
-})
+import{config} from './config.js'
+import {checkIfLoggedin} from './helper.js'
 
 /**
  * Generate the template
@@ -33,9 +23,9 @@ function getBasket(){
 
     $.ajax({
         method:'POST',
-        url: links.all,
+        url : config.allItems,
         data: {
-            token: localStorage.getItem('token'),
+            token : localStorage.getItem('token')
         }
 
     }).done(function(basket){
@@ -69,7 +59,7 @@ function storeItem(item)
 {
     $.ajax({
         method:'POST',
-        url: links.store,
+        url: config.store,
         data: item
 
     }).done(function(response){
@@ -89,7 +79,7 @@ function deleteItem(id)
 {
     $.ajax({
         method:'POST',
-        url: links.delete,
+        url: config.delete,
         data: {id : id}
 
     }).done ( function(msg) {
@@ -113,7 +103,7 @@ $('.addButton').click(function(){
         item: itemName,
         quantity: quantity,
         price: price,
-        token : localStorage.getItem('token')
+        token : localStorage.getItem('token'),
 
     }
 
@@ -122,6 +112,9 @@ $('.addButton').click(function(){
 
 
 $(document).ready(function(){
+    if(!localStorage.getItem('token')){
+        window.location.assign('index.html')  
+    }
 
     getBasket();
 
@@ -135,10 +128,12 @@ $(document).ready(function(){
 
 })
 
-
-$('#logOut').click( function(){
-
+$('.logout').click(function(){
     localStorage.clear()
-    window.location.assign('../index.html')
-
+    checkIfLoggedin('addItems.html', 'login.html')
 })
+
+ 
+
+
+
